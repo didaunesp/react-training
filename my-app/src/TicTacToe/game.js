@@ -11,36 +11,17 @@ class Game extends React.Component {
     };
   }
 
-  handleClick(i) {
-    const history = this.state.history;
-    const current = history[history.length - 1];
-    const squares = current.squares.slice();
-    if (calculateWinner(squares) || squares[i]) {
-      return;
-    }
-    squares[i] = this.state.xIsNext ? "X" : "O";
-    this.setState({
-      history: history.concat([{ squares: squares }]),
-      xIsNext: !this.state.xIsNext,
-    });
-  }
-
-  jumpTo(move) {
-    console.log(move);
-  }
-
   render() {
     const history = this.state.history;
     const current = history[history.length - 1];
     const winner = calculateWinner(current.squares);
 
     const moves = history.map((step, move) => {
+      console.log(step, move);
       const desc = move ? "Go to move #" + move : "Go to game start";
       return (
-        <li>
-          <button key={step} onClick={() => this.jumpTo(move)}>
-            {desc}
-          </button>
+        <li key={move}>
+          <button onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
       );
     });
@@ -63,6 +44,24 @@ class Game extends React.Component {
         </div>
       </div>
     );
+  }
+
+  jumpTo(move) {
+    console.log(move);
+  }
+
+  handleClick(i) {
+    const history = this.state.history;
+    const current = history[history.length - 1];
+    const squares = current.squares.slice();
+    if (calculateWinner(squares) || squares[i]) {
+      return;
+    }
+    squares[i] = this.state.xIsNext ? "X" : "O";
+    this.setState({
+      history: history.concat([{ squares: squares }]),
+      xIsNext: !this.state.xIsNext,
+    });
   }
 }
 
